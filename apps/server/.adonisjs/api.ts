@@ -7,7 +7,39 @@
 import type { MakeTuyauRequest, MakeTuyauResponse } from '@tuyau/utils/types'
 import type { InferInput } from '@vinejs/vine/types'
 
+type AuthMeGetHead = {
+  request: unknown
+  response: MakeTuyauResponse<import('../app/auth/controllers/user_info_controller.ts').default['me'], false>
+}
+type AuthRedirectGetHead = {
+  request: unknown
+  response: MakeTuyauResponse<import('../app/auth/controllers/discord_controller.ts').default['redirect'], false>
+}
+type AuthCallbackGetHead = {
+  request: unknown
+  response: MakeTuyauResponse<import('../app/auth/controllers/discord_controller.ts').default['callback'], false>
+}
 export interface ApiDefinition {
+  'auth': {
+    'me': {
+      '$url': {
+      };
+      '$get': AuthMeGetHead;
+      '$head': AuthMeGetHead;
+    };
+    'redirect': {
+      '$url': {
+      };
+      '$get': AuthRedirectGetHead;
+      '$head': AuthRedirectGetHead;
+    };
+    'callback': {
+      '$url': {
+      };
+      '$get': AuthCallbackGetHead;
+      '$head': AuthCallbackGetHead;
+    };
+  };
 }
 const routes = [
 ] as const;

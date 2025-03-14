@@ -3,6 +3,7 @@ import { Link } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
+import { TextLogo } from '@/components/shared/text_logo'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -48,8 +49,8 @@ export function LoginForm({ redirect, className, ...props }: LoginFormProps) {
         <form onSubmit={onSubmit}>
           <div className="flex flex-col gap-6">
             <div className="flex flex-col items-center my-4">
-              <Link to="/" className="font-bold text-5xl tracking-tighter">
-                pala<span className="text-purple-600">vote</span>.
+              <Link to="/">
+                <TextLogo />
               </Link>
             </div>
             <Button variant="outline" className="w-full" asChild>

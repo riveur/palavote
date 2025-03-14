@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client'
 
 import { Providers } from './components/shared/providers'
 import { router } from './lib/router'
-import './styles.css'
+import './css/styles.css'
 
 // Render the app
 const rootElement = document.getElementById('app')!

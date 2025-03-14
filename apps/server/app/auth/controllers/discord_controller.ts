@@ -8,11 +8,11 @@ export default class DiscordController {
   constructor(private userRepository: UserRepository) {}
 
   async redirect({ ally }: HttpContext) {
-    return ally.use('discord').redirect()
+    return ally.use('discord').stateless().redirect()
   }
 
   async callback({ ally, response }: HttpContext) {
-    const discord = ally.use('discord')
+    const discord = ally.use('discord').stateless()
 
     if (discord.accessDenied()) {
       return response.unauthorized({ message: "Vous avez annulé le processus d'authentification." })

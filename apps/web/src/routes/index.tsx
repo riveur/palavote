@@ -14,7 +14,7 @@ function RouteComponent() {
       <main className="min-h-screen w-full flex flex-col items-center justify-center gap-8">
         <h1 className="text-5xl font-bold">PalaVote</h1>
         <p>Votez parmis plusieurs dilemmes sur le thème de Paladium</p>
-        <Link to="/" className={buttonVariants()}>
+        <Link to="/vote" className={buttonVariants()}>
           Commencer <ChevronRightIcon />
         </Link>
       </main>

@@ -1,10 +1,14 @@
-import { createRootRoute, Outlet } from '@tanstack/react-router'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { createRootRouteWithContext, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 
-export const Route = createRootRoute({
+import type { RouterContext } from '@/lib/router'
+
+export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
     <>
       <Outlet />
+      <ReactQueryDevtools />
       <TanStackRouterDevtools />
     </>
   ),

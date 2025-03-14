@@ -11,14 +11,40 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as GuestonlyImport } from './routes/_guest_only'
+import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as IndexImport } from './routes/index'
+import { Route as GuestonlyLoginImport } from './routes/_guest_only/login'
+import { Route as AuthenticatedVoteImport } from './routes/_authenticated/vote'
 
 // Create/Update Routes
+
+const GuestonlyRoute = GuestonlyImport.update({
+  id: '/_guest_only',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AuthenticatedRoute = AuthenticatedImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const GuestonlyLoginRoute = GuestonlyLoginImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => GuestonlyRoute,
+} as any)
+
+const AuthenticatedVoteRoute = AuthenticatedVoteImport.update({
+  id: '/vote',
+  path: '/vote',
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -32,39 +58,111 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthenticatedImport
+      parentRoute: typeof rootRoute
+    }
+    '/_guest_only': {
+      id: '/_guest_only'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof GuestonlyImport
+      parentRoute: typeof rootRoute
+    }
+    '/_authenticated/vote': {
+      id: '/_authenticated/vote'
+      path: '/vote'
+      fullPath: '/vote'
+      preLoaderRoute: typeof AuthenticatedVoteImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_guest_only/login': {
+      id: '/_guest_only/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof GuestonlyLoginImport
+      parentRoute: typeof GuestonlyImport
+    }
   }
 }
 
 // Create and export the route tree
 
+interface AuthenticatedRouteChildren {
+  AuthenticatedVoteRoute: typeof AuthenticatedVoteRoute
+}
+
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedVoteRoute: AuthenticatedVoteRoute,
+}
+
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
+)
+
+interface GuestonlyRouteChildren {
+  GuestonlyLoginRoute: typeof GuestonlyLoginRoute
+}
+
+const GuestonlyRouteChildren: GuestonlyRouteChildren = {
+  GuestonlyLoginRoute: GuestonlyLoginRoute,
+}
+
+const GuestonlyRouteWithChildren = GuestonlyRoute._addFileChildren(
+  GuestonlyRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '': typeof GuestonlyRouteWithChildren
+  '/vote': typeof AuthenticatedVoteRoute
+  '/login': typeof GuestonlyLoginRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '': typeof GuestonlyRouteWithChildren
+  '/vote': typeof AuthenticatedVoteRoute
+  '/login': typeof GuestonlyLoginRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/_guest_only': typeof GuestonlyRouteWithChildren
+  '/_authenticated/vote': typeof AuthenticatedVoteRoute
+  '/_guest_only/login': typeof GuestonlyLoginRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '' | '/vote' | '/login'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '' | '/vote' | '/login'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/_guest_only'
+    | '/_authenticated/vote'
+    | '/_guest_only/login'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
+  GuestonlyRoute: typeof GuestonlyRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
+  GuestonlyRoute: GuestonlyRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -77,11 +175,33 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/"
+        "/",
+        "/_authenticated",
+        "/_guest_only"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/_authenticated": {
+      "filePath": "_authenticated.tsx",
+      "children": [
+        "/_authenticated/vote"
+      ]
+    },
+    "/_guest_only": {
+      "filePath": "_guest_only.tsx",
+      "children": [
+        "/_guest_only/login"
+      ]
+    },
+    "/_authenticated/vote": {
+      "filePath": "_authenticated/vote.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_guest_only/login": {
+      "filePath": "_guest_only/login.tsx",
+      "parent": "/_guest_only"
     }
   }
 }

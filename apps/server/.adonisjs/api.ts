@@ -19,6 +19,26 @@ type AuthCallbackGetHead = {
   request: unknown
   response: MakeTuyauResponse<import('../app/auth/controllers/discord_controller.ts').default['callback'], false>
 }
+type AuthAnonymousPost = {
+  request: MakeTuyauRequest<InferInput<typeof import('../app/auth/controllers/anonymous_controller.ts').default['validator']>>
+  response: MakeTuyauResponse<import('../app/auth/controllers/anonymous_controller.ts').default['execute'], true>
+}
+type AuthLogoutPost = {
+  request: unknown
+  response: MakeTuyauResponse<import('../app/auth/controllers/logout_controller.ts').default['execute'], false>
+}
+type DilemmasVotePost = {
+  request: MakeTuyauRequest<InferInput<typeof import('../app/vote/controllers/vote_dilemma_controller.ts').default['validator']>>
+  response: MakeTuyauResponse<import('../app/vote/controllers/vote_dilemma_controller.ts').default['execute'], true>
+}
+type DilemmasPickGetHead = {
+  request: unknown
+  response: MakeTuyauResponse<import('../app/vote/controllers/pick_dilemma_controller.ts').default['execute'], false>
+}
+type DilemmasPost = {
+  request: MakeTuyauRequest<InferInput<typeof import('../app/vote/controllers/store_dilemma_controller.ts').default['#validator']>>
+  response: MakeTuyauResponse<import('../app/vote/controllers/store_dilemma_controller.ts').default['execute'], true>
+}
 export interface ApiDefinition {
   'auth': {
     'me': {
@@ -39,6 +59,32 @@ export interface ApiDefinition {
       '$get': AuthCallbackGetHead;
       '$head': AuthCallbackGetHead;
     };
+    'anonymous': {
+      '$url': {
+      };
+      '$post': AuthAnonymousPost;
+    };
+    'logout': {
+      '$url': {
+      };
+      '$post': AuthLogoutPost;
+    };
+  };
+  'dilemmas': {
+    'vote': {
+      '$url': {
+      };
+      '$post': DilemmasVotePost;
+    };
+    'pick': {
+      '$url': {
+      };
+      '$get': DilemmasPickGetHead;
+      '$head': DilemmasPickGetHead;
+    };
+    '$url': {
+    };
+    '$post': DilemmasPost;
   };
 }
 const routes = [

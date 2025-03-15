@@ -1,5 +1,6 @@
-import { createFileRoute, redirect } from '@tanstack/react-router'
+import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
 
+import { Layout } from '@/components/authenticated/layout'
 import { Loading } from '@/components/shared/loading'
 import { authQueryOptions } from '@/features/auth/queries'
 
@@ -21,4 +22,11 @@ export const Route = createFileRoute('/_authenticated')({
       <Loading />
     </main>
   ),
+  component: () => {
+    return (
+      <Layout>
+        <Outlet />
+      </Layout>
+    )
+  },
 })

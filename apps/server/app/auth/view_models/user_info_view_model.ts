@@ -15,6 +15,7 @@ export class UserInfoViewModel {
         ? this.user.avatarUrl
         : `https://api.dicebear.com/9.x/initials/svg?seed=${this.user.username}`,
       role: this.user.role,
+      isAnonymous: this.user.discordId === undefined,
       createdAt: this.user.createdAt.toISO()!,
       updatedAt: this.user.updatedAt ? this.user.updatedAt?.toISO()! : null,
     }

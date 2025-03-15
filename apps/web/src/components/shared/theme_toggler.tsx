@@ -1,6 +1,7 @@
 import { MonitorIcon, MoonIcon, SunIcon } from 'lucide-react'
 import { Button } from '../ui/button'
 import { useTheme } from './theme_provider'
+import { ThemeIcon } from './theme_icon'
 
 export function ThemeToggler({
   size = 'icon',
@@ -25,9 +26,7 @@ export function ThemeToggler({
   return (
     <Button size={size} onClick={changeTheme} {...props}>
       <span className="sr-only">Toggle theme</span>
-      {theme === 'system' && <MonitorIcon />}
-      {theme === 'light' && <SunIcon />}
-      {theme === 'dark' && <MoonIcon />}
+      <ThemeIcon />
     </Button>
   )
 }

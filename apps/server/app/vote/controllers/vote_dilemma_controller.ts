@@ -28,9 +28,12 @@ export default class VoteDilemmaController {
 
     await this.voteRepository.vote(user.id, payload.proposition_id)
 
+    const result = await this.dilemmaRepository.getVoteResult(payload.proposition_id)
+
     const nextDilemma = await this.dilemmaRepository.findRandomDilemmaByUserId(user.id)
 
     return response.ok({
+      result,
       next: nextDilemma ? DilemmaViewModel.fromModel(nextDilemma).serialize() : null,
     })
   }

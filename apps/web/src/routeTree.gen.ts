@@ -15,7 +15,8 @@ import { Route as GuestonlyImport } from './routes/_guest_only'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as IndexImport } from './routes/index'
 import { Route as GuestonlyLoginImport } from './routes/_guest_only/login'
-import { Route as AuthenticatedVoteImport } from './routes/_authenticated/vote'
+import { Route as AuthenticatedVoteIndexImport } from './routes/_authenticated/vote.index'
+import { Route as AuthenticatedVoteP1P2Import } from './routes/_authenticated/vote.$p1.$p2'
 
 // Create/Update Routes
 
@@ -41,9 +42,15 @@ const GuestonlyLoginRoute = GuestonlyLoginImport.update({
   getParentRoute: () => GuestonlyRoute,
 } as any)
 
-const AuthenticatedVoteRoute = AuthenticatedVoteImport.update({
-  id: '/vote',
-  path: '/vote',
+const AuthenticatedVoteIndexRoute = AuthenticatedVoteIndexImport.update({
+  id: '/vote/',
+  path: '/vote/',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+
+const AuthenticatedVoteP1P2Route = AuthenticatedVoteP1P2Import.update({
+  id: '/vote/$p1/$p2',
+  path: '/vote/$p1/$p2',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
 
@@ -72,13 +79,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuestonlyImport
       parentRoute: typeof rootRoute
     }
-    '/_authenticated/vote': {
-      id: '/_authenticated/vote'
-      path: '/vote'
-      fullPath: '/vote'
-      preLoaderRoute: typeof AuthenticatedVoteImport
-      parentRoute: typeof AuthenticatedImport
-    }
     '/_guest_only/login': {
       id: '/_guest_only/login'
       path: '/login'
@@ -86,17 +86,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuestonlyLoginImport
       parentRoute: typeof GuestonlyImport
     }
+    '/_authenticated/vote/': {
+      id: '/_authenticated/vote/'
+      path: '/vote'
+      fullPath: '/vote'
+      preLoaderRoute: typeof AuthenticatedVoteIndexImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/vote/$p1/$p2': {
+      id: '/_authenticated/vote/$p1/$p2'
+      path: '/vote/$p1/$p2'
+      fullPath: '/vote/$p1/$p2'
+      preLoaderRoute: typeof AuthenticatedVoteP1P2Import
+      parentRoute: typeof AuthenticatedImport
+    }
   }
 }
 
 // Create and export the route tree
 
 interface AuthenticatedRouteChildren {
-  AuthenticatedVoteRoute: typeof AuthenticatedVoteRoute
+  AuthenticatedVoteIndexRoute: typeof AuthenticatedVoteIndexRoute
+  AuthenticatedVoteP1P2Route: typeof AuthenticatedVoteP1P2Route
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
-  AuthenticatedVoteRoute: AuthenticatedVoteRoute,
+  AuthenticatedVoteIndexRoute: AuthenticatedVoteIndexRoute,
+  AuthenticatedVoteP1P2Route: AuthenticatedVoteP1P2Route,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
@@ -118,15 +134,17 @@ const GuestonlyRouteWithChildren = GuestonlyRoute._addFileChildren(
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof GuestonlyRouteWithChildren
-  '/vote': typeof AuthenticatedVoteRoute
   '/login': typeof GuestonlyLoginRoute
+  '/vote': typeof AuthenticatedVoteIndexRoute
+  '/vote/$p1/$p2': typeof AuthenticatedVoteP1P2Route
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof GuestonlyRouteWithChildren
-  '/vote': typeof AuthenticatedVoteRoute
   '/login': typeof GuestonlyLoginRoute
+  '/vote': typeof AuthenticatedVoteIndexRoute
+  '/vote/$p1/$p2': typeof AuthenticatedVoteP1P2Route
 }
 
 export interface FileRoutesById {
@@ -134,22 +152,24 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/_guest_only': typeof GuestonlyRouteWithChildren
-  '/_authenticated/vote': typeof AuthenticatedVoteRoute
   '/_guest_only/login': typeof GuestonlyLoginRoute
+  '/_authenticated/vote/': typeof AuthenticatedVoteIndexRoute
+  '/_authenticated/vote/$p1/$p2': typeof AuthenticatedVoteP1P2Route
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '' | '/vote' | '/login'
+  fullPaths: '/' | '' | '/login' | '/vote' | '/vote/$p1/$p2'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/vote' | '/login'
+  to: '/' | '' | '/login' | '/vote' | '/vote/$p1/$p2'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/_guest_only'
-    | '/_authenticated/vote'
     | '/_guest_only/login'
+    | '/_authenticated/vote/'
+    | '/_authenticated/vote/$p1/$p2'
   fileRoutesById: FileRoutesById
 }
 
@@ -186,7 +206,8 @@ export const routeTree = rootRoute
     "/_authenticated": {
       "filePath": "_authenticated.tsx",
       "children": [
-        "/_authenticated/vote"
+        "/_authenticated/vote/",
+        "/_authenticated/vote/$p1/$p2"
       ]
     },
     "/_guest_only": {
@@ -195,13 +216,17 @@ export const routeTree = rootRoute
         "/_guest_only/login"
       ]
     },
-    "/_authenticated/vote": {
-      "filePath": "_authenticated/vote.tsx",
-      "parent": "/_authenticated"
-    },
     "/_guest_only/login": {
       "filePath": "_guest_only/login.tsx",
       "parent": "/_guest_only"
+    },
+    "/_authenticated/vote/": {
+      "filePath": "_authenticated/vote.index.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/vote/$p1/$p2": {
+      "filePath": "_authenticated/vote.$p1.$p2.tsx",
+      "parent": "/_authenticated"
     }
   }
 }

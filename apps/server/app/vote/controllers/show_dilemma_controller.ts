@@ -6,16 +6,19 @@ import { VoteRepository } from '#vote/repositories/vote_repository'
 import { DilemmaViewModel } from '#vote/view_models/dilemma_view_model'
 
 @inject()
-export default class PickDilemmaController {
+export default class ShowDilemmaController {
   constructor(
     private dilemmaRepository: DilemmaRepository,
     private voteRepository: VoteRepository
   ) {}
 
-  async execute({ auth, response }: HttpContext) {
+  async execute({ params, auth, response }: HttpContext) {
     const user = auth.getUserOrFail()
 
-    const dilemma = await this.dilemmaRepository.findRandomDilemmaByUserId(user.id)
+    const dilemma = await this.dilemmaRepository.findRandomDilemmaByPropositions(
+      params.firstProp,
+      params.secondProp
+    )
 
     const vote = await this.voteRepository.findVoteByUserId(
       user.id,
@@ -29,8 +32,8 @@ export default class PickDilemmaController {
     }
 
     return response.ok({
-      result,
       dilemma: dilemma ? DilemmaViewModel.fromModel(dilemma).serialize() : null,
+      result,
     })
   }
 }

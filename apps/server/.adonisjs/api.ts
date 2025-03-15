@@ -35,6 +35,10 @@ type DilemmasPickGetHead = {
   request: unknown
   response: MakeTuyauResponse<import('../app/vote/controllers/pick_dilemma_controller.ts').default['execute'], false>
 }
+type DilemmasIdIdGetHead = {
+  request: unknown
+  response: MakeTuyauResponse<import('../app/vote/controllers/show_dilemma_controller.ts').default['execute'], false>
+}
 type DilemmasPost = {
   request: MakeTuyauRequest<InferInput<typeof import('../app/vote/controllers/store_dilemma_controller.ts').default['#validator']>>
   response: MakeTuyauResponse<import('../app/vote/controllers/store_dilemma_controller.ts').default['execute'], true>
@@ -81,6 +85,14 @@ export interface ApiDefinition {
       };
       '$get': DilemmasPickGetHead;
       '$head': DilemmasPickGetHead;
+    };
+    ':firstProp': {
+      ':secondProp': {
+        '$url': {
+        };
+        '$get': DilemmasIdIdGetHead;
+        '$head': DilemmasIdIdGetHead;
+      };
     };
     '$url': {
     };

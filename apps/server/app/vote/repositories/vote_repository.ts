@@ -16,4 +16,14 @@ export class VoteRepository {
       propositionId: propositionId,
     })
   }
+
+  async findVoteByUserId(userId: number, propositionIds: number[] = []) {
+    const query = Vote.query().where('user_id', userId)
+
+    if (propositionIds.length > 0) {
+      query.whereIn('proposition_id', propositionIds)
+    }
+
+    return query.first()
+  }
 }

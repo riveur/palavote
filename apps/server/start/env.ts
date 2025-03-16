@@ -36,4 +36,16 @@ export default await Env.create(new URL('../', import.meta.url), {
   */
   DISCORD_CLIENT_ID: Env.schema.string(),
   DISCORD_CLIENT_SECRET: Env.schema.string(),
+
+  /*
+  |----------------------------------------------------------
+  | Variables for configuring the drive package
+  |----------------------------------------------------------
+  */
+  DRIVE_DISK: Env.schema.enum(['spaces'] as const),
+  SPACES_KEY: Env.schema.string(),
+  SPACES_SECRET: Env.schema.string(),
+  SPACES_REGION: Env.schema.string(),
+  SPACES_BUCKET: Env.schema.string(),
+  SPACES_ENDPOINT: Env.schema.string(),
 })

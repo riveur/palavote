@@ -16,6 +16,7 @@ import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as IndexImport } from './routes/index'
 import { Route as GuestonlyLoginImport } from './routes/_guest_only/login'
 import { Route as AuthenticatedVoteIndexImport } from './routes/_authenticated/vote.index'
+import { Route as AuthenticatedPropositionsCreateImport } from './routes/_authenticated/propositions.create'
 import { Route as AuthenticatedVoteP1P2Import } from './routes/_authenticated/vote.$p1.$p2'
 
 // Create/Update Routes
@@ -47,6 +48,13 @@ const AuthenticatedVoteIndexRoute = AuthenticatedVoteIndexImport.update({
   path: '/vote/',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+
+const AuthenticatedPropositionsCreateRoute =
+  AuthenticatedPropositionsCreateImport.update({
+    id: '/propositions/create',
+    path: '/propositions/create',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 const AuthenticatedVoteP1P2Route = AuthenticatedVoteP1P2Import.update({
   id: '/vote/$p1/$p2',
@@ -86,6 +94,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuestonlyLoginImport
       parentRoute: typeof GuestonlyImport
     }
+    '/_authenticated/propositions/create': {
+      id: '/_authenticated/propositions/create'
+      path: '/propositions/create'
+      fullPath: '/propositions/create'
+      preLoaderRoute: typeof AuthenticatedPropositionsCreateImport
+      parentRoute: typeof AuthenticatedImport
+    }
     '/_authenticated/vote/': {
       id: '/_authenticated/vote/'
       path: '/vote'
@@ -106,11 +121,13 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface AuthenticatedRouteChildren {
+  AuthenticatedPropositionsCreateRoute: typeof AuthenticatedPropositionsCreateRoute
   AuthenticatedVoteIndexRoute: typeof AuthenticatedVoteIndexRoute
   AuthenticatedVoteP1P2Route: typeof AuthenticatedVoteP1P2Route
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedPropositionsCreateRoute: AuthenticatedPropositionsCreateRoute,
   AuthenticatedVoteIndexRoute: AuthenticatedVoteIndexRoute,
   AuthenticatedVoteP1P2Route: AuthenticatedVoteP1P2Route,
 }
@@ -135,6 +152,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof GuestonlyRouteWithChildren
   '/login': typeof GuestonlyLoginRoute
+  '/propositions/create': typeof AuthenticatedPropositionsCreateRoute
   '/vote': typeof AuthenticatedVoteIndexRoute
   '/vote/$p1/$p2': typeof AuthenticatedVoteP1P2Route
 }
@@ -143,6 +161,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof GuestonlyRouteWithChildren
   '/login': typeof GuestonlyLoginRoute
+  '/propositions/create': typeof AuthenticatedPropositionsCreateRoute
   '/vote': typeof AuthenticatedVoteIndexRoute
   '/vote/$p1/$p2': typeof AuthenticatedVoteP1P2Route
 }
@@ -153,21 +172,29 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/_guest_only': typeof GuestonlyRouteWithChildren
   '/_guest_only/login': typeof GuestonlyLoginRoute
+  '/_authenticated/propositions/create': typeof AuthenticatedPropositionsCreateRoute
   '/_authenticated/vote/': typeof AuthenticatedVoteIndexRoute
   '/_authenticated/vote/$p1/$p2': typeof AuthenticatedVoteP1P2Route
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '' | '/login' | '/vote' | '/vote/$p1/$p2'
+  fullPaths:
+    | '/'
+    | ''
+    | '/login'
+    | '/propositions/create'
+    | '/vote'
+    | '/vote/$p1/$p2'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/login' | '/vote' | '/vote/$p1/$p2'
+  to: '/' | '' | '/login' | '/propositions/create' | '/vote' | '/vote/$p1/$p2'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/_guest_only'
     | '/_guest_only/login'
+    | '/_authenticated/propositions/create'
     | '/_authenticated/vote/'
     | '/_authenticated/vote/$p1/$p2'
   fileRoutesById: FileRoutesById
@@ -206,6 +233,7 @@ export const routeTree = rootRoute
     "/_authenticated": {
       "filePath": "_authenticated.tsx",
       "children": [
+        "/_authenticated/propositions/create",
         "/_authenticated/vote/",
         "/_authenticated/vote/$p1/$p2"
       ]
@@ -219,6 +247,10 @@ export const routeTree = rootRoute
     "/_guest_only/login": {
       "filePath": "_guest_only/login.tsx",
       "parent": "/_guest_only"
+    },
+    "/_authenticated/propositions/create": {
+      "filePath": "_authenticated/propositions.create.tsx",
+      "parent": "/_authenticated"
     },
     "/_authenticated/vote/": {
       "filePath": "_authenticated/vote.index.tsx",

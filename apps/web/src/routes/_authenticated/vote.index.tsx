@@ -1,4 +1,4 @@
-import { createFileRoute, notFound, Outlet, redirect } from '@tanstack/react-router'
+import { createFileRoute, Link, notFound, Outlet, redirect } from '@tanstack/react-router'
 import { LandPlotIcon } from 'lucide-react'
 
 import { Loading } from '@/components/shared/loading'
@@ -29,7 +29,9 @@ export const Route = createFileRoute('/_authenticated/vote/')({
     <div className="flex-1 flex flex-col gap-8 items-center justify-center">
       <h1 className="text-xl font-bold text-center">Vous avez fini de répondre à tous les votes</h1>
       <LandPlotIcon className="size-16" />
-      <Button>Proposer un nouveau vote</Button>
+      <Button asChild>
+        <Link to="/propositions/create">Proposer un nouveau vote</Link>
+      </Button>
     </div>
   ),
   pendingComponent: () => (

@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import { client } from '@/lib/client'
+import type { FormSchema as PropositionFormSchema } from './components/proposition_form'
 import { dilemmaQueryOptions } from './queries'
 
 type UseVoteDilemmaMutationOptions = {
@@ -37,6 +38,30 @@ export function useVoteDilemmaMutation({
           onNextEmpty?.()
         }
       }
+    },
+  })
+}
+
+export function useStoreDilemmaMutation() {
+  return useMutation({
+    mutationFn: (values: PropositionFormSchema) => {
+      return client.dilemmas.$post(values)
+    },
+  })
+}
+
+export function useUploadPropositionImageMutation() {
+  return useMutation({
+    mutationFn: async (file: File) => {
+      const formData = new FormData()
+      formData.append('file', file)
+      const { data, error } = await client.propositions.upload.$post(formData)
+
+      if (error) {
+        throw error
+      }
+
+      return data as { url: string }
     },
   })
 }

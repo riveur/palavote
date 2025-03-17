@@ -2,6 +2,7 @@ import router from '@adonisjs/core/services/router'
 
 import { middleware } from '#start/kernel'
 
+const ListDilemmaController = () => import('#vote/controllers/list_dilemma_controller')
 const UploadPropositionImageController = () =>
   import('#vote/controllers/upload_proposition_image_controller')
 const ShowDilemmaController = () => import('#vote/controllers/show_dilemma_controller')
@@ -18,3 +19,5 @@ router
     router.post('/propositions/upload', [UploadPropositionImageController, 'execute'])
   })
   .middleware(middleware.auth({ guards: ['api'] }))
+
+router.get('/dilemmas', [ListDilemmaController, 'execute'])

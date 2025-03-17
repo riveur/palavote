@@ -10,7 +10,7 @@ export default class Vote extends BaseModel {
   declare id: number
 
   @column()
-  declare userId: number
+  declare userId: number | null
 
   @column()
   declare propositionId: number
@@ -19,7 +19,7 @@ export default class Vote extends BaseModel {
   declare anonymousUsername: string | null
 
   @belongsTo(() => User)
-  declare voter: BelongsTo<typeof User>
+  declare voter: BelongsTo<typeof User> | null
 
   @belongsTo(() => Proposition)
   declare proposition: BelongsTo<typeof Proposition>

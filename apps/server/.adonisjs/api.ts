@@ -47,6 +47,10 @@ type PropositionsUploadPost = {
   request: MakeTuyauRequest<InferInput<typeof import('../app/vote/controllers/upload_proposition_image_controller.ts').default['#validator']>>
   response: MakeTuyauResponse<import('../app/vote/controllers/upload_proposition_image_controller.ts').default['execute'], true>
 }
+type DilemmasGetHead = {
+  request: unknown
+  response: MakeTuyauResponse<import('../app/vote/controllers/list_dilemma_controller.ts').default['execute'], false>
+}
 export interface ApiDefinition {
   'auth': {
     'me': {
@@ -101,6 +105,8 @@ export interface ApiDefinition {
     '$url': {
     };
     '$post': DilemmasPost;
+    '$get': DilemmasGetHead;
+    '$head': DilemmasGetHead;
   };
   'propositions': {
     'upload': {

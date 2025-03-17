@@ -53,4 +53,14 @@ export class DilemmaRepository {
       votesForCurrentProposition,
     }
   }
+
+  async findAll() {
+    return Dilemma.query()
+      .preload('author')
+      .preload('propositions', (query) => {
+        query.preload('votes')
+      })
+      .where('is_approved', true)
+      .orderBy('created_at', 'desc')
+  }
 }

@@ -16,7 +16,7 @@ export function Header({ className, ...props }: React.ComponentProps<'header'>) 
         </Link>
         <div className="flex flex-row items-center gap-2">
           {links.map((link) => (
-            <Button variant="ghost" size="lg" asChild>
+            <Button key={link.href} variant="ghost" size="lg" asChild>
               <Link to={link.href} activeProps={{ className: 'bg-accent' }}>
                 {link.label}
               </Link>

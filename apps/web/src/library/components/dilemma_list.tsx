@@ -28,6 +28,7 @@ export function DilemmaList({ dilemmas, ...props }: DilemmaListProps) {
                 if (typeof proposition === 'string') {
                   return (
                     <Separator
+                      key={proposition}
                       orientation="vertical"
                       className="data-[orientation=vertical]:w-1 bg-background"
                     />
@@ -36,7 +37,8 @@ export function DilemmaList({ dilemmas, ...props }: DilemmaListProps) {
 
                 return (
                   <div
-                    className="w-full h-full bg-cover bg-no-repeat"
+                    key={proposition.id}
+                    className="w-full h-full bg-center bg-cover bg-no-repeat"
                     style={{ backgroundImage: `url(${proposition.imageUrl})` }}
                   />
                 )
@@ -48,7 +50,7 @@ export function DilemmaList({ dilemmas, ...props }: DilemmaListProps) {
                 <div className="flex flex-row gap-1 items-center text-muted-foreground text-sm">
                   {[dilemma.propositions[0], '', dilemma.propositions[1]].map((proposition) => {
                     if (typeof proposition === 'string') {
-                      return <span>/</span>
+                      return <span key={proposition}>/</span>
                     }
                     return (
                       <div key={proposition.id} className="flex flex-row items-center gap-1">

@@ -19,10 +19,6 @@ export default class ListDilemmaController {
     const query = await ListDilemmaController.queryValidator.validate(request.qs())
     const onlyApproved = auth.user?.role === 'ADMIN' ? query.only_approved : true
 
-    console.log({ auth: auth.user?.role })
-
-    console.log({ onlyApproved })
-
     const dilemmas = await this.dilemmaRepository.findAll({ onlyApproved: onlyApproved })
 
     return response.ok(AllDilemmaViewModel.fromModel(dilemmas).serialize())

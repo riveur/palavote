@@ -35,5 +35,6 @@ export function authQueryOptions() {
       return data
     },
     retry: 1,
+    staleTime: Infinity,
   })
 }

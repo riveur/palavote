@@ -1,5 +1,6 @@
 import router from '@adonisjs/core/services/router'
 
+import '#admin/routes'
 import '#auth/routes'
 import '#vote/routes'
 

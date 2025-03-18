@@ -12,6 +12,7 @@ export class AllDilemmaViewModel {
     return this.dilemmas.map((dilemma) => ({
       id: dilemma.id,
       title: dilemma.title,
+      isApproved: dilemma.isApproved,
       anonymousUsername: dilemma.anonymousUsername,
       author: dilemma.author ? UserInfoViewModel.fromModel(dilemma.author).serialize() : null,
       propositions: dilemma.propositions.map((prop) => ({

@@ -51,6 +51,14 @@ type DilemmasGetHead = {
   request: unknown
   response: MakeTuyauResponse<import('../app/vote/controllers/list_dilemma_controller.ts').default['execute'], false>
 }
+type AdminDilemmasIdApprovePut = {
+  request: unknown
+  response: MakeTuyauResponse<import('../app/admin/controllers/toggle_dilemma_approve_controller.ts').default['execute'], false>
+}
+type AdminDilemmasIdPut = {
+  request: MakeTuyauRequest<InferInput<typeof import('../app/admin/controllers/update_dilemma_controller.ts').default['validator']>>
+  response: MakeTuyauResponse<import('../app/admin/controllers/update_dilemma_controller.ts').default['execute'], true>
+}
 export interface ApiDefinition {
   'auth': {
     'me': {
@@ -113,6 +121,20 @@ export interface ApiDefinition {
       '$url': {
       };
       '$post': PropositionsUploadPost;
+    };
+  };
+  'admin': {
+    'dilemmas': {
+      ':id': {
+        'approve': {
+          '$url': {
+          };
+          '$put': AdminDilemmasIdApprovePut;
+        };
+        '$url': {
+        };
+        '$put': AdminDilemmasIdPut;
+      };
     };
   };
 }

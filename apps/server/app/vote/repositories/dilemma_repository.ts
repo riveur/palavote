@@ -1,7 +1,33 @@
+import stringHelpers from '@adonisjs/core/helpers/string'
+import type { Infer } from '@vinejs/vine/types'
+
+import type UpdateDilemmaController from '#admin/controllers/update_dilemma_controller'
 import Dilemma from '#vote/models/dilemma'
+import Proposition from '#vote/models/proposition'
 import Vote from '#vote/models/vote'
 
 export class DilemmaRepository {
+  async update(id: number, payload: Infer<(typeof UpdateDilemmaController)['validator']>) {
+    const dilemma = await Dilemma.findOrFail(id)
+
+    await dilemma.merge({ title: payload.title }).save()
+
+    for (const prop of payload.propositions) {
+      await Proposition.query()
+        .where('id', prop.id)
+        .update({
+          name: prop.name,
+          slug: stringHelpers.slug(prop.name),
+          imageUrl: prop.image_url,
+        })
+    }
+
+    await dilemma.load('author')
+    await dilemma.load('propositions')
+
+    return dilemma
+  }
+
   findRandomDilemmaByPropositions(firstSlug: string, secondSlug: string) {
     return Dilemma.query()
       .preload('author')
@@ -54,13 +80,40 @@ export class DilemmaRepository {
     }
   }
 
-  async findAll() {
-    return Dilemma.query()
+  async findAll(filters: { onlyApproved?: boolean } = {}) {
+    const { onlyApproved = true } = filters
+
+    const query = Dilemma.query()
       .preload('author')
-      .preload('propositions', (query) => {
-        query.preload('votes')
+      .preload('propositions', (q) => {
+        q.preload('votes')
       })
-      .where('is_approved', true)
       .orderBy('created_at', 'desc')
+
+    if (onlyApproved) {
+      query.where('is_approved', true)
+    }
+
+    return query.exec()
+  }
+
+  async toggleApprove(dilemmaId: number) {
+    const dilemma = await Dilemma.findOrFail(dilemmaId)
+
+    await dilemma.load('propositions', (query) => query.select(['id']))
+
+    dilemma.isApproved = !dilemma.isApproved
+
+    Proposition.query()
+      .whereIn(
+        'id',
+        dilemma.propositions.map((p) => p.id)
+      )
+      .update({ isApproved: dilemma.isApproved })
+      .exec()
+
+    await dilemma.save()
+
+    return dilemma
   }
 }

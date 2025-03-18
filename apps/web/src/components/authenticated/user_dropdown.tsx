@@ -1,4 +1,5 @@
-import { LogOutIcon } from 'lucide-react'
+import { Link } from '@tanstack/react-router'
+import { GaugeIcon, LogOutIcon } from 'lucide-react'
 
 import { ThemeIcon } from '@/components/shared/theme_icon'
 import { useTheme } from '@/components/shared/theme_provider'
@@ -18,7 +19,7 @@ import { useAuth } from '@/features/auth/hooks/use_auth'
 import { useLogoutMutation } from '@/features/auth/mutations'
 
 export function UserDropdown() {
-  const { user } = useAuth()
+  const { user, roleIs } = useAuth()
   const { theme, setTheme } = useTheme()
 
   const changeTheme = () => {
@@ -69,6 +70,14 @@ export function UserDropdown() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
+          {roleIs('ADMIN') && (
+            <DropdownMenuItem asChild>
+              <Link to="/dashboard">
+                <GaugeIcon />
+                Dashboard
+              </Link>
+            </DropdownMenuItem>
+          )}
           <DropdownMenuItem onSelect={(event) => event.preventDefault()} onClick={changeTheme}>
             <ThemeIcon />
             Thème

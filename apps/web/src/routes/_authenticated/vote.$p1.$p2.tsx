@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
+import { XCircleIcon } from 'lucide-react'
 import { useState } from 'react'
 
+import { Loading } from '@/components/shared/loading'
 import { Button } from '@/components/ui/button'
 import { DilemmaVoteResult } from '@/features/vote/components/dilemma_vote_result'
 import { PropositionCard } from '@/features/vote/components/proposition_card'
@@ -13,7 +15,7 @@ export const Route = createFileRoute('/_authenticated/vote/$p1/$p2')({
 
 function RouteComponent() {
   const { p1: firstPropositionSlug, p2: secondPropositionSlug } = Route.useParams()
-  const { data } = useDilemma(firstPropositionSlug, secondPropositionSlug)
+  const { data, isLoading } = useDilemma(firstPropositionSlug, secondPropositionSlug)
 
   const [next, setNext] = useState<{
     nextFirstPropSlug: string
@@ -31,8 +33,24 @@ function RouteComponent() {
     },
   })
 
+  if (isLoading) {
+    return (
+      <div className="flex-1 flex items-center justify-center">
+        <Loading />
+      </div>
+    )
+  }
+
   if (!data?.dilemma) {
-    return null
+    return (
+      <div className="flex-1 flex flex-col gap-8 items-center justify-center">
+        <h1 className="text-xl font-bold text-center">Vote inexistant</h1>
+        <XCircleIcon className="size-16" />
+        <Button asChild>
+          <Link to="/library">Retourner au catalogue</Link>
+        </Button>
+      </div>
+    )
   }
 
   return (

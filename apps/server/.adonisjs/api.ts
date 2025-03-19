@@ -7,6 +7,14 @@
 import type { MakeTuyauRequest, MakeTuyauResponse } from '@tuyau/utils/types'
 import type { InferInput } from '@vinejs/vine/types'
 
+type AdminDilemmasIdApprovePut = {
+  request: unknown
+  response: MakeTuyauResponse<import('../app/admin/controllers/toggle_dilemma_approve_controller.ts').default['execute'], false>
+}
+type AdminDilemmasIdPut = {
+  request: MakeTuyauRequest<InferInput<typeof import('../app/admin/controllers/update_dilemma_controller.ts').default['validator']>>
+  response: MakeTuyauResponse<import('../app/admin/controllers/update_dilemma_controller.ts').default['execute'], true>
+}
 type AuthMeGetHead = {
   request: unknown
   response: MakeTuyauResponse<import('../app/auth/controllers/user_info_controller.ts').default['me'], false>
@@ -18,10 +26,6 @@ type AuthRedirectGetHead = {
 type AuthCallbackGetHead = {
   request: unknown
   response: MakeTuyauResponse<import('../app/auth/controllers/discord_controller.ts').default['callback'], false>
-}
-type AuthAnonymousPost = {
-  request: MakeTuyauRequest<InferInput<typeof import('../app/auth/controllers/anonymous_controller.ts').default['validator']>>
-  response: MakeTuyauResponse<import('../app/auth/controllers/anonymous_controller.ts').default['execute'], true>
 }
 type AuthLogoutPost = {
   request: unknown
@@ -51,15 +55,21 @@ type DilemmasGetHead = {
   request: unknown
   response: MakeTuyauResponse<import('../app/vote/controllers/list_dilemma_controller.ts').default['execute'], false>
 }
-type AdminDilemmasIdApprovePut = {
-  request: unknown
-  response: MakeTuyauResponse<import('../app/admin/controllers/toggle_dilemma_approve_controller.ts').default['execute'], false>
-}
-type AdminDilemmasIdPut = {
-  request: MakeTuyauRequest<InferInput<typeof import('../app/admin/controllers/update_dilemma_controller.ts').default['validator']>>
-  response: MakeTuyauResponse<import('../app/admin/controllers/update_dilemma_controller.ts').default['execute'], true>
-}
 export interface ApiDefinition {
+  'admin': {
+    'dilemmas': {
+      ':id': {
+        'approve': {
+          '$url': {
+          };
+          '$put': AdminDilemmasIdApprovePut;
+        };
+        '$url': {
+        };
+        '$put': AdminDilemmasIdPut;
+      };
+    };
+  };
   'auth': {
     'me': {
       '$url': {
@@ -78,11 +88,6 @@ export interface ApiDefinition {
       };
       '$get': AuthCallbackGetHead;
       '$head': AuthCallbackGetHead;
-    };
-    'anonymous': {
-      '$url': {
-      };
-      '$post': AuthAnonymousPost;
     };
     'logout': {
       '$url': {
@@ -121,20 +126,6 @@ export interface ApiDefinition {
       '$url': {
       };
       '$post': PropositionsUploadPost;
-    };
-  };
-  'admin': {
-    'dilemmas': {
-      ':id': {
-        'approve': {
-          '$url': {
-          };
-          '$put': AdminDilemmasIdApprovePut;
-        };
-        '$url': {
-        };
-        '$put': AdminDilemmasIdPut;
-      };
     };
   };
 }

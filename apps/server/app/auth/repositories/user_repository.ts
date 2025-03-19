@@ -12,11 +12,6 @@ export class UserRepository {
     return user
   }
 
-  async findAnonymousOrCreate(username: string) {
-    const user = await User.firstOrCreate({ username, discordId: null }, { role: UserRole.USER })
-    return user
-  }
-
   async createAccessToken(user: User) {
     const token = await User.accessTokens.create(user)
 

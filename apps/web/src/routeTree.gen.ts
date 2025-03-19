@@ -14,6 +14,8 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as GuestonlyImport } from './routes/_guest_only'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as IndexImport } from './routes/index'
+import { Route as LegalTermsImport } from './routes/_legal/terms'
+import { Route as LegalPrivacyImport } from './routes/_legal/privacy'
 import { Route as GuestonlyLoginImport } from './routes/_guest_only/login'
 import { Route as AuthenticatedLibraryImport } from './routes/_authenticated/library'
 import { Route as AuthenticatedDashboardImport } from './routes/_authenticated/_dashboard'
@@ -38,6 +40,18 @@ const AuthenticatedRoute = AuthenticatedImport.update({
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LegalTermsRoute = LegalTermsImport.update({
+  id: '/_legal/terms',
+  path: '/terms',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LegalPrivacyRoute = LegalPrivacyImport.update({
+  id: '/_legal/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -137,6 +151,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuestonlyLoginImport
       parentRoute: typeof GuestonlyImport
     }
+    '/_legal/privacy': {
+      id: '/_legal/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof LegalPrivacyImport
+      parentRoute: typeof rootRoute
+    }
+    '/_legal/terms': {
+      id: '/_legal/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof LegalTermsImport
+      parentRoute: typeof rootRoute
+    }
     '/_authenticated/propositions/create': {
       id: '/_authenticated/propositions/create'
       path: '/propositions/create'
@@ -232,6 +260,8 @@ export interface FileRoutesByFullPath {
   '': typeof AuthenticatedDashboardRouteWithChildren
   '/library': typeof AuthenticatedLibraryRoute
   '/login': typeof GuestonlyLoginRoute
+  '/privacy': typeof LegalPrivacyRoute
+  '/terms': typeof LegalTermsRoute
   '/propositions/create': typeof AuthenticatedPropositionsCreateRoute
   '/vote': typeof AuthenticatedVoteIndexRoute
   '/dashboard/dilemmas': typeof AuthenticatedDashboardDashboardDilemmasRoute
@@ -244,6 +274,8 @@ export interface FileRoutesByTo {
   '': typeof AuthenticatedDashboardRouteWithChildren
   '/library': typeof AuthenticatedLibraryRoute
   '/login': typeof GuestonlyLoginRoute
+  '/privacy': typeof LegalPrivacyRoute
+  '/terms': typeof LegalTermsRoute
   '/propositions/create': typeof AuthenticatedPropositionsCreateRoute
   '/vote': typeof AuthenticatedVoteIndexRoute
   '/dashboard/dilemmas': typeof AuthenticatedDashboardDashboardDilemmasRoute
@@ -259,6 +291,8 @@ export interface FileRoutesById {
   '/_authenticated/_dashboard': typeof AuthenticatedDashboardRouteWithChildren
   '/_authenticated/library': typeof AuthenticatedLibraryRoute
   '/_guest_only/login': typeof GuestonlyLoginRoute
+  '/_legal/privacy': typeof LegalPrivacyRoute
+  '/_legal/terms': typeof LegalTermsRoute
   '/_authenticated/propositions/create': typeof AuthenticatedPropositionsCreateRoute
   '/_authenticated/vote/': typeof AuthenticatedVoteIndexRoute
   '/_authenticated/_dashboard/dashboard/dilemmas': typeof AuthenticatedDashboardDashboardDilemmasRoute
@@ -273,6 +307,8 @@ export interface FileRouteTypes {
     | ''
     | '/library'
     | '/login'
+    | '/privacy'
+    | '/terms'
     | '/propositions/create'
     | '/vote'
     | '/dashboard/dilemmas'
@@ -284,6 +320,8 @@ export interface FileRouteTypes {
     | ''
     | '/library'
     | '/login'
+    | '/privacy'
+    | '/terms'
     | '/propositions/create'
     | '/vote'
     | '/dashboard/dilemmas'
@@ -297,6 +335,8 @@ export interface FileRouteTypes {
     | '/_authenticated/_dashboard'
     | '/_authenticated/library'
     | '/_guest_only/login'
+    | '/_legal/privacy'
+    | '/_legal/terms'
     | '/_authenticated/propositions/create'
     | '/_authenticated/vote/'
     | '/_authenticated/_dashboard/dashboard/dilemmas'
@@ -309,12 +349,16 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   GuestonlyRoute: typeof GuestonlyRouteWithChildren
+  LegalPrivacyRoute: typeof LegalPrivacyRoute
+  LegalTermsRoute: typeof LegalTermsRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   GuestonlyRoute: GuestonlyRouteWithChildren,
+  LegalPrivacyRoute: LegalPrivacyRoute,
+  LegalTermsRoute: LegalTermsRoute,
 }
 
 export const routeTree = rootRoute
@@ -329,7 +373,9 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/_authenticated",
-        "/_guest_only"
+        "/_guest_only",
+        "/_legal/privacy",
+        "/_legal/terms"
       ]
     },
     "/": {
@@ -366,6 +412,12 @@ export const routeTree = rootRoute
     "/_guest_only/login": {
       "filePath": "_guest_only/login.tsx",
       "parent": "/_guest_only"
+    },
+    "/_legal/privacy": {
+      "filePath": "_legal/privacy.tsx"
+    },
+    "/_legal/terms": {
+      "filePath": "_legal/terms.tsx"
     },
     "/_authenticated/propositions/create": {
       "filePath": "_authenticated/propositions.create.tsx",

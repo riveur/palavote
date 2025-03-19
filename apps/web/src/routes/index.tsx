@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { ChevronRightIcon } from 'lucide-react'
 
+import { CreditCard } from '@/components/shared/credit_card'
 import { TextLogo } from '@/components/shared/text_logo'
 import { ThemeToggler } from '@/components/shared/theme_toggler'
 import { buttonVariants } from '@/components/ui/button'
@@ -19,6 +20,7 @@ function RouteComponent() {
           Commencer <ChevronRightIcon />
         </Link>
       </main>
+      <CreditCard className="fixed bottom-0 right-0 rounded-tr-none rounded-b-none border-b-0 border-r-0" />
       <ThemeToggler className="fixed top-4 right-4 size-8" />
     </>
   )

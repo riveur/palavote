@@ -7,125 +7,127 @@
 import type { MakeTuyauRequest, MakeTuyauResponse } from '@tuyau/utils/types'
 import type { InferInput } from '@vinejs/vine/types'
 
-type AdminDilemmasIdApprovePut = {
+type ApiAdminDilemmasIdApprovePut = {
   request: unknown
   response: MakeTuyauResponse<import('../app/admin/controllers/toggle_dilemma_approve_controller.ts').default['execute'], false>
 }
-type AdminDilemmasIdPut = {
+type ApiAdminDilemmasIdPut = {
   request: MakeTuyauRequest<InferInput<typeof import('../app/admin/controllers/update_dilemma_controller.ts').default['validator']>>
   response: MakeTuyauResponse<import('../app/admin/controllers/update_dilemma_controller.ts').default['execute'], true>
 }
-type AuthMeGetHead = {
+type ApiAuthMeGetHead = {
   request: unknown
   response: MakeTuyauResponse<import('../app/auth/controllers/user_info_controller.ts').default['me'], false>
 }
-type AuthRedirectGetHead = {
+type ApiAuthRedirectGetHead = {
   request: unknown
   response: MakeTuyauResponse<import('../app/auth/controllers/discord_controller.ts').default['redirect'], false>
 }
-type AuthCallbackGetHead = {
+type ApiAuthCallbackGetHead = {
   request: unknown
   response: MakeTuyauResponse<import('../app/auth/controllers/discord_controller.ts').default['callback'], false>
 }
-type AuthLogoutPost = {
+type ApiAuthLogoutPost = {
   request: unknown
   response: MakeTuyauResponse<import('../app/auth/controllers/logout_controller.ts').default['execute'], false>
 }
-type DilemmasVotePost = {
+type ApiDilemmasVotePost = {
   request: MakeTuyauRequest<InferInput<typeof import('../app/vote/controllers/vote_dilemma_controller.ts').default['validator']>>
   response: MakeTuyauResponse<import('../app/vote/controllers/vote_dilemma_controller.ts').default['execute'], true>
 }
-type DilemmasPickGetHead = {
+type ApiDilemmasPickGetHead = {
   request: unknown
   response: MakeTuyauResponse<import('../app/vote/controllers/pick_dilemma_controller.ts').default['execute'], false>
 }
-type DilemmasIdIdGetHead = {
+type ApiDilemmasIdIdGetHead = {
   request: unknown
   response: MakeTuyauResponse<import('../app/vote/controllers/show_dilemma_controller.ts').default['execute'], false>
 }
-type DilemmasPost = {
+type ApiDilemmasPost = {
   request: MakeTuyauRequest<InferInput<typeof import('../app/vote/controllers/store_dilemma_controller.ts').default['#validator']>>
   response: MakeTuyauResponse<import('../app/vote/controllers/store_dilemma_controller.ts').default['execute'], true>
 }
-type PropositionsUploadPost = {
+type ApiPropositionsUploadPost = {
   request: MakeTuyauRequest<InferInput<typeof import('../app/vote/controllers/upload_proposition_image_controller.ts').default['#validator']>>
   response: MakeTuyauResponse<import('../app/vote/controllers/upload_proposition_image_controller.ts').default['execute'], true>
 }
-type DilemmasGetHead = {
+type ApiDilemmasGetHead = {
   request: unknown
   response: MakeTuyauResponse<import('../app/vote/controllers/list_dilemma_controller.ts').default['execute'], false>
 }
 export interface ApiDefinition {
-  'admin': {
-    'dilemmas': {
-      ':id': {
-        'approve': {
+  'api': {
+    'admin': {
+      'dilemmas': {
+        ':id': {
+          'approve': {
+            '$url': {
+            };
+            '$put': ApiAdminDilemmasIdApprovePut;
+          };
           '$url': {
           };
-          '$put': AdminDilemmasIdApprovePut;
+          '$put': ApiAdminDilemmasIdPut;
         };
+      };
+    };
+    'auth': {
+      'me': {
         '$url': {
         };
-        '$put': AdminDilemmasIdPut;
+        '$get': ApiAuthMeGetHead;
+        '$head': ApiAuthMeGetHead;
       };
-    };
-  };
-  'auth': {
-    'me': {
-      '$url': {
-      };
-      '$get': AuthMeGetHead;
-      '$head': AuthMeGetHead;
-    };
-    'redirect': {
-      '$url': {
-      };
-      '$get': AuthRedirectGetHead;
-      '$head': AuthRedirectGetHead;
-    };
-    'callback': {
-      '$url': {
-      };
-      '$get': AuthCallbackGetHead;
-      '$head': AuthCallbackGetHead;
-    };
-    'logout': {
-      '$url': {
-      };
-      '$post': AuthLogoutPost;
-    };
-  };
-  'dilemmas': {
-    'vote': {
-      '$url': {
-      };
-      '$post': DilemmasVotePost;
-    };
-    'pick': {
-      '$url': {
-      };
-      '$get': DilemmasPickGetHead;
-      '$head': DilemmasPickGetHead;
-    };
-    ':firstProp': {
-      ':secondProp': {
+      'redirect': {
         '$url': {
         };
-        '$get': DilemmasIdIdGetHead;
-        '$head': DilemmasIdIdGetHead;
+        '$get': ApiAuthRedirectGetHead;
+        '$head': ApiAuthRedirectGetHead;
+      };
+      'callback': {
+        '$url': {
+        };
+        '$get': ApiAuthCallbackGetHead;
+        '$head': ApiAuthCallbackGetHead;
+      };
+      'logout': {
+        '$url': {
+        };
+        '$post': ApiAuthLogoutPost;
       };
     };
-    '$url': {
-    };
-    '$post': DilemmasPost;
-    '$get': DilemmasGetHead;
-    '$head': DilemmasGetHead;
-  };
-  'propositions': {
-    'upload': {
+    'dilemmas': {
+      'vote': {
+        '$url': {
+        };
+        '$post': ApiDilemmasVotePost;
+      };
+      'pick': {
+        '$url': {
+        };
+        '$get': ApiDilemmasPickGetHead;
+        '$head': ApiDilemmasPickGetHead;
+      };
+      ':firstProp': {
+        ':secondProp': {
+          '$url': {
+          };
+          '$get': ApiDilemmasIdIdGetHead;
+          '$head': ApiDilemmasIdIdGetHead;
+        };
+      };
       '$url': {
       };
-      '$post': PropositionsUploadPost;
+      '$post': ApiDilemmasPost;
+      '$get': ApiDilemmasGetHead;
+      '$head': ApiDilemmasGetHead;
+    };
+    'propositions': {
+      'upload': {
+        '$url': {
+        };
+        '$post': ApiPropositionsUploadPost;
+      };
     };
   };
 }

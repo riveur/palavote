@@ -13,7 +13,7 @@ export function dilemmaQueryOptions(firstPropositionSlug: string, secondProposit
       { firstPropositionId: firstPropositionSlug, secondPropositionId: secondPropositionSlug },
     ],
     queryFn: async () => {
-      const { data, error } = await client
+      const { data, error } = await client.api
         .dilemmas({
           firstProp: firstPropositionSlug,
         })({ secondProp: secondPropositionSlug })

@@ -20,7 +20,7 @@ export function LoginForm({ redirect, className, ...props }: LoginFormProps) {
           </Link>
         </div>
         <Button variant="outline" className="w-full" asChild>
-          <a href={client.auth.redirect.$url()}>
+          <a href={client.api.auth.redirect.$url()}>
             <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path
                 fill="currentColor"

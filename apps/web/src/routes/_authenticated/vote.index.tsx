@@ -8,7 +8,7 @@ import { client } from '@/lib/client'
 
 export const Route = createFileRoute('/_authenticated/vote/')({
   loader: async ({ context }) => {
-    const { data, error } = await client.dilemmas.pick.$get()
+    const { data, error } = await client.api.dilemmas.pick.$get()
 
     if (error) {
       throw error

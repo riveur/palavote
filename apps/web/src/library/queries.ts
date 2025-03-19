@@ -12,7 +12,7 @@ export function useDilemmas(options: UseDilemmasOptions = {}) {
   return useQuery({
     queryKey: ['dilemmas', { onlyApproved }],
     queryFn: async () => {
-      const { data, error } = await client.dilemmas.$get({ query: { only_approved: onlyApproved } })
+      const { data, error } = await client.api.dilemmas.$get({ query: { only_approved: onlyApproved } })
 
       if (error) {
         throw error

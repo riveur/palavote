@@ -14,4 +14,4 @@ router
       .post('/logout', [LogoutController, 'execute'])
       .middleware(middleware.auth({ guards: ['api'] }))
   })
-  .prefix('/auth')
+  .prefix('/api/auth')

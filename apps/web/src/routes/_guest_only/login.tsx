@@ -15,7 +15,7 @@ export const Route = createFileRoute('/_guest_only/login')({
 
     const tokenState = useAuthTokenStore.getState()
 
-    const { data, error } = await client.auth.callback.$get({
+    const { data, error } = await client.api.auth.callback.$get({
       query: { code: search.code },
     })
 

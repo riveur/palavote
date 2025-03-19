@@ -21,7 +21,7 @@ export function authQueryOptions() {
   return queryOptions({
     queryKey: ['auth'],
     queryFn: async () => {
-      const { data, error } = await client.auth.me.$get()
+      const { data, error } = await client.api.auth.me.$get()
       if (error) {
         throw error
       }

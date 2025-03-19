@@ -18,6 +18,7 @@ router
     router.post('/dilemmas', [StoreDilemmaController, 'execute'])
     router.post('/propositions/upload', [UploadPropositionImageController, 'execute'])
   })
+  .prefix('/api')
   .middleware(middleware.auth({ guards: ['api'] }))
 
-router.get('/dilemmas', [ListDilemmaController, 'execute'])
+router.get('/api/dilemmas', [ListDilemmaController, 'execute'])

@@ -11,5 +11,5 @@ router
     router.put('/dilemmas/:id/approve', [ToggleDilemmaApproveController, 'execute'])
     router.put('/dilemmas/:id', [UpdateDilemmaController, 'execute'])
   })
-  .prefix('admin')
+  .prefix('/api/admin')
   .middleware(middleware.auth({ guards: ['api'] }))

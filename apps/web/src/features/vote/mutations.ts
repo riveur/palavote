@@ -20,7 +20,7 @@ export function useVoteDilemmaMutation({
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: (propositionId: number) =>
-      client.dilemmas.vote.$post({ proposition_id: propositionId }),
+      client.api.dilemmas.vote.$post({ proposition_id: propositionId }),
     onSettled: (data) => {
       if (!data?.error) {
         queryClient.invalidateQueries({
@@ -45,7 +45,7 @@ export function useVoteDilemmaMutation({
 export function useStoreDilemmaMutation() {
   return useMutation({
     mutationFn: (values: PropositionFormSchema) => {
-      return client.dilemmas.$post(values)
+      return client.api.dilemmas.$post(values)
     },
   })
 }
@@ -55,7 +55,7 @@ export function useUploadPropositionImageMutation() {
     mutationFn: async (file: File) => {
       const formData = new FormData()
       formData.append('file', file)
-      const { data, error } = await client.propositions.upload.$post(formData)
+      const { data, error } = await client.api.propositions.upload.$post(formData)
 
       if (error) {
         throw error

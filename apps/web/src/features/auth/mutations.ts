@@ -11,7 +11,7 @@ export function useLogoutMutation() {
   const resetAuthToken = useAuthTokenStore((state) => state.reset)
 
   return useMutation({
-    mutationFn: () => client.auth.logout.$post(),
+    mutationFn: () => client.api.auth.logout.$post(),
     onSuccess: async () => {
       queryClient.resetQueries({ queryKey: authQueryOptions().queryKey })
       navigate({ to: '/' })

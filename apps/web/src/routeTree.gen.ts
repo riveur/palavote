@@ -19,6 +19,7 @@ import { Route as AuthenticatedLibraryImport } from './routes/_authenticated/lib
 import { Route as AuthenticatedDashboardImport } from './routes/_authenticated/_dashboard'
 import { Route as AuthenticatedVoteIndexImport } from './routes/_authenticated/vote.index'
 import { Route as AuthenticatedPropositionsCreateImport } from './routes/_authenticated/propositions.create'
+import { Route as AuthenticatedDashboardDashboardIndexImport } from './routes/_authenticated/_dashboard/dashboard/index'
 import { Route as AuthenticatedVoteP1P2Import } from './routes/_authenticated/vote.$p1.$p2'
 import { Route as AuthenticatedDashboardDashboardDilemmasImport } from './routes/_authenticated/_dashboard/dashboard/dilemmas'
 
@@ -68,6 +69,13 @@ const AuthenticatedPropositionsCreateRoute =
     id: '/propositions/create',
     path: '/propositions/create',
     getParentRoute: () => AuthenticatedRoute,
+  } as any)
+
+const AuthenticatedDashboardDashboardIndexRoute =
+  AuthenticatedDashboardDashboardIndexImport.update({
+    id: '/dashboard/',
+    path: '/dashboard/',
+    getParentRoute: () => AuthenticatedDashboardRoute,
   } as any)
 
 const AuthenticatedVoteP1P2Route = AuthenticatedVoteP1P2Import.update({
@@ -157,6 +165,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedVoteP1P2Import
       parentRoute: typeof AuthenticatedImport
     }
+    '/_authenticated/_dashboard/dashboard/': {
+      id: '/_authenticated/_dashboard/dashboard/'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardDashboardIndexImport
+      parentRoute: typeof AuthenticatedDashboardImport
+    }
   }
 }
 
@@ -164,12 +179,15 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedDashboardRouteChildren {
   AuthenticatedDashboardDashboardDilemmasRoute: typeof AuthenticatedDashboardDashboardDilemmasRoute
+  AuthenticatedDashboardDashboardIndexRoute: typeof AuthenticatedDashboardDashboardIndexRoute
 }
 
 const AuthenticatedDashboardRouteChildren: AuthenticatedDashboardRouteChildren =
   {
     AuthenticatedDashboardDashboardDilemmasRoute:
       AuthenticatedDashboardDashboardDilemmasRoute,
+    AuthenticatedDashboardDashboardIndexRoute:
+      AuthenticatedDashboardDashboardIndexRoute,
   }
 
 const AuthenticatedDashboardRouteWithChildren =
@@ -218,6 +236,7 @@ export interface FileRoutesByFullPath {
   '/vote': typeof AuthenticatedVoteIndexRoute
   '/dashboard/dilemmas': typeof AuthenticatedDashboardDashboardDilemmasRoute
   '/vote/$p1/$p2': typeof AuthenticatedVoteP1P2Route
+  '/dashboard': typeof AuthenticatedDashboardDashboardIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -229,6 +248,7 @@ export interface FileRoutesByTo {
   '/vote': typeof AuthenticatedVoteIndexRoute
   '/dashboard/dilemmas': typeof AuthenticatedDashboardDashboardDilemmasRoute
   '/vote/$p1/$p2': typeof AuthenticatedVoteP1P2Route
+  '/dashboard': typeof AuthenticatedDashboardDashboardIndexRoute
 }
 
 export interface FileRoutesById {
@@ -243,6 +263,7 @@ export interface FileRoutesById {
   '/_authenticated/vote/': typeof AuthenticatedVoteIndexRoute
   '/_authenticated/_dashboard/dashboard/dilemmas': typeof AuthenticatedDashboardDashboardDilemmasRoute
   '/_authenticated/vote/$p1/$p2': typeof AuthenticatedVoteP1P2Route
+  '/_authenticated/_dashboard/dashboard/': typeof AuthenticatedDashboardDashboardIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -256,6 +277,7 @@ export interface FileRouteTypes {
     | '/vote'
     | '/dashboard/dilemmas'
     | '/vote/$p1/$p2'
+    | '/dashboard'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -266,6 +288,7 @@ export interface FileRouteTypes {
     | '/vote'
     | '/dashboard/dilemmas'
     | '/vote/$p1/$p2'
+    | '/dashboard'
   id:
     | '__root__'
     | '/'
@@ -278,6 +301,7 @@ export interface FileRouteTypes {
     | '/_authenticated/vote/'
     | '/_authenticated/_dashboard/dashboard/dilemmas'
     | '/_authenticated/vote/$p1/$p2'
+    | '/_authenticated/_dashboard/dashboard/'
   fileRoutesById: FileRoutesById
 }
 
@@ -331,7 +355,8 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/_dashboard.tsx",
       "parent": "/_authenticated",
       "children": [
-        "/_authenticated/_dashboard/dashboard/dilemmas"
+        "/_authenticated/_dashboard/dashboard/dilemmas",
+        "/_authenticated/_dashboard/dashboard/"
       ]
     },
     "/_authenticated/library": {
@@ -357,6 +382,10 @@ export const routeTree = rootRoute
     "/_authenticated/vote/$p1/$p2": {
       "filePath": "_authenticated/vote.$p1.$p2.tsx",
       "parent": "/_authenticated"
+    },
+    "/_authenticated/_dashboard/dashboard/": {
+      "filePath": "_authenticated/_dashboard/dashboard/index.tsx",
+      "parent": "/_authenticated/_dashboard"
     }
   }
 }

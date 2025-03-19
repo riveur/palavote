@@ -1,12 +1,9 @@
 import { queryOptions, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useLocation, useNavigate } from '@tanstack/react-router'
 import { useEffect } from 'react'
 
 import { client } from '@/lib/client'
 
 export function useAuthQuery() {
-  const location = useLocation()
-  const navigate = useNavigate()
   const queryClient = useQueryClient()
 
   const query = useQuery(authQueryOptions())
@@ -14,12 +11,8 @@ export function useAuthQuery() {
   useEffect(() => {
     if (query.error) {
       queryClient.resetQueries({ queryKey: authQueryOptions().queryKey })
-      navigate({
-        to: '/login',
-        search: { redirect: location.pathname !== '/login' ? location.pathname : undefined },
-      })
     }
-  }, [query.error, navigate, location.pathname, queryClient])
+  }, [query.error, queryClient])
 
   return query
 }

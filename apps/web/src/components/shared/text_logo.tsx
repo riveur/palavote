@@ -8,10 +8,7 @@ export function TextLogo({ className, ...props }: React.ComponentProps<'span'>) 
       {...props}
     >
       pala
-      <span className="bg-gradient-to-br from-purple-800 to-indigo-500 bg-clip-text text-transparent">
-        vote
-      </span>
-      .
+      <span className="text-primary">vote</span>
     </span>
   )
 }

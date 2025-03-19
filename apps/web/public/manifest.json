@@ -1,6 +1,6 @@
 {
-  "short_name": "TanStack App",
-  "name": "Create TanStack App Sample",
+  "short_name": "PalaVote",
+  "name": "Choississez un dilemme et votez",
   "icons": [
     {
       "src": "favicon.ico",

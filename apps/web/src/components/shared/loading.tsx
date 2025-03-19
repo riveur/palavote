@@ -1,5 +1,4 @@
-import { LoaderIcon } from 'lucide-react'
-
+import { Spinner } from '@/components/ui/spinner'
 import { cn } from '@/lib/utils'
 
 export function Loading({
@@ -15,7 +14,7 @@ export function Loading({
       )}
       {...props}
     >
-      <LoaderIcon />
+      <Spinner variant="ring" />
       {children}
     </div>
   )

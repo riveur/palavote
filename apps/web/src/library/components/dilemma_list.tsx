@@ -30,7 +30,7 @@ export function DilemmaList({ dilemmas, ...props }: DilemmaListProps) {
                     <Separator
                       key={proposition}
                       orientation="vertical"
-                      className="data-[orientation=vertical]:w-1 bg-background"
+                      className="data-[orientation=vertical]:w-1 bg-transparent"
                     />
                   )
                 }

@@ -22,7 +22,7 @@ export function PropositionCard({
     <Card
       data-pending={isPending}
       className={cn(
-        'group relative flex flex-col justify-end overflow-hidden data-[pending="true"]:animate-pulse data-[voted="true"]:border-0 data-[voted="true"]:outline-4 data-[voted="true"]:outline-purple-900/70',
+        'group relative flex flex-col justify-end overflow-hidden data-[pending="true"]:animate-pulse data-[voted="true"]:border-0 data-[voted="true"]:outline-4 data-[voted="true"]:outline-primary/50',
         className
       )}
       {...props}

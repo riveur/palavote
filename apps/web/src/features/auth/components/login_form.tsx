@@ -49,6 +49,7 @@ export function LoginForm({ redirect, className, ...props }: LoginFormProps) {
         <form onSubmit={onSubmit}>
           <div className="flex flex-col gap-6">
             <div className="flex flex-col items-center my-4">
+              <img src="/logo192.png" className="size-12" />
               <Link to="/">
                 <TextLogo />
               </Link>

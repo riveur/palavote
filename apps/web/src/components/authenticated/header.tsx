@@ -4,23 +4,30 @@ import { cn } from '@/lib/utils'
 import { TextLogo } from '../shared/text_logo'
 import { Button } from '../ui/button'
 import { UserDropdown } from './user_dropdown'
+import { Separator } from '../ui/separator'
 
 const links = [{ label: 'Catalogue', href: '/library' }]
 
 export function Header({ className, ...props }: React.ComponentProps<'header'>) {
   return (
-    <header className={cn('flex flex-row items-center justify-between p-4', className)} {...props}>
-      <div className="flex flex-row items-center gap-8">
-        <Link to="/">
-          <TextLogo className="text-3xl" />
+    <header
+      className={cn('flex flex-row items-center justify-between p-4 z-10', className)}
+      {...props}
+    >
+      <div className="flex flex-row items-center gap-6">
+        <Link to="/" className="flex flex-row justify-center items-center gap-2">
+          <img src="/logo192.png" alt="Logo" className="size-12" />
+          <TextLogo className="text-xl" />
         </Link>
+        <Separator className="data-[orientation=vertical]:h-6" orientation="vertical" />
         <div className="flex flex-row items-center gap-2">
           {links.map((link) => (
-            <Button key={link.href} variant="ghost" size="lg" asChild>
-              <Link to={link.href} activeProps={{ className: 'bg-accent' }}>
-                {link.label}
-              </Link>
-            </Button>
+            <Link
+              to={link.href}
+              className="transition-colors hover:text-foreground text-foreground/80 data-[status=active]:text-foreground"
+            >
+              {link.label}
+            </Link>
           ))}
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { queryOptions } from '@tanstack/react-query'
 
 import { client } from '@/lib/client'
 
@@ -6,13 +6,15 @@ type UseDilemmasOptions = {
   onlyApproved?: boolean
 }
 
-export function useDilemmas(options: UseDilemmasOptions = {}) {
+export function dilemmasQueryOptions(options: UseDilemmasOptions = {}) {
   const { onlyApproved = true } = options
 
-  return useQuery({
+  return queryOptions({
     queryKey: ['dilemmas', { onlyApproved }],
     queryFn: async () => {
-      const { data, error } = await client.api.dilemmas.$get({ query: { only_approved: onlyApproved } })
+      const { data, error } = await client.api.dilemmas.$get({
+        query: { only_approved: onlyApproved },
+      })
 
       if (error) {
         throw error

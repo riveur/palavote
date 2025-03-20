@@ -1,21 +1,26 @@
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { XCircleIcon } from 'lucide-react'
 import { useState } from 'react'
 
-import { Loading } from '@/components/shared/loading'
 import { Button } from '@/components/ui/button'
 import { DilemmaVoteResult } from '@/features/vote/components/dilemma_vote_result'
 import { PropositionCard } from '@/features/vote/components/proposition_card'
 import { useVoteDilemmaMutation } from '@/features/vote/mutations'
-import { useDilemma } from '@/features/vote/queries'
+import { dilemmaQueryOptions } from '@/features/vote/queries'
 
 export const Route = createFileRoute('/_authenticated/vote/$p1/$p2')({
+  loader: async ({ context, params }) => {
+    await context.queryClient.ensureQueryData(dilemmaQueryOptions(params.p1, params.p2))
+  },
   component: RouteComponent,
 })
 
 function RouteComponent() {
   const { p1: firstPropositionSlug, p2: secondPropositionSlug } = Route.useParams()
-  const { data, isLoading } = useDilemma(firstPropositionSlug, secondPropositionSlug)
+  const { data } = useSuspenseQuery(
+    dilemmaQueryOptions(firstPropositionSlug, secondPropositionSlug)
+  )
 
   const [next, setNext] = useState<{
     nextFirstPropSlug: string
@@ -32,14 +37,6 @@ function RouteComponent() {
       setNext(null)
     },
   })
-
-  if (isLoading) {
-    return (
-      <div className="flex-1 flex items-center justify-center">
-        <Loading />
-      </div>
-    )
-  }
 
   if (!data?.dilemma) {
     return (

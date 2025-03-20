@@ -5,22 +5,25 @@ import type UpdateDilemmaController from '#admin/controllers/update_dilemma_cont
 import Dilemma from '#vote/models/dilemma'
 import Proposition from '#vote/models/proposition'
 import Vote from '#vote/models/vote'
+import db from '@adonisjs/lucid/services/db'
 
 export class DilemmaRepository {
   async update(id: number, payload: Infer<(typeof UpdateDilemmaController)['validator']>) {
     const dilemma = await Dilemma.findOrFail(id)
 
-    await dilemma.merge({ title: payload.title }).save()
+    db.transaction(async () => {
+      await dilemma.merge({ title: payload.title }).save()
 
-    for (const prop of payload.propositions) {
-      await Proposition.query()
-        .where('id', prop.id)
-        .update({
-          name: prop.name,
-          slug: stringHelpers.slug(prop.name),
-          imageUrl: prop.image_url,
-        })
-    }
+      for (const prop of payload.propositions) {
+        await Proposition.query()
+          .where('id', prop.id)
+          .update({
+            name: prop.name,
+            slug: stringHelpers.slug(`${prop.name}-${dilemma.id}`),
+            imageUrl: prop.image_url,
+          })
+      }
+    })
 
     await dilemma.load('author')
     await dilemma.load('propositions')

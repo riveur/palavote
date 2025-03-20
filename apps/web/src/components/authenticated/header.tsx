@@ -23,7 +23,7 @@ export function Header({ className, ...props }: React.ComponentProps<'header'>) 
           <TextLogo className="text-xl" />
         </Link>
         <Separator className="data-[orientation=vertical]:h-6" orientation="vertical" />
-        <div className="flex flex-row items-center gap-2">
+        <div className="flex flex-row items-center gap-4">
           {links.map((link) => (
             <Link
               key={link.href}

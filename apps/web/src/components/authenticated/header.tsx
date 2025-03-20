@@ -6,7 +6,10 @@ import { Button } from '../ui/button'
 import { UserDropdown } from './user_dropdown'
 import { Separator } from '../ui/separator'
 
-const links = [{ label: 'Catalogue', href: '/library' }]
+const links = [
+  { label: 'Catalogue', href: '/library' },
+  { label: 'Proposer', href: '/propositions/create' },
+]
 
 export function Header({ className, ...props }: React.ComponentProps<'header'>) {
   return (

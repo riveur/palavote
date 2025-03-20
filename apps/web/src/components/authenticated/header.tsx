@@ -23,6 +23,7 @@ export function Header({ className, ...props }: React.ComponentProps<'header'>) 
         <div className="flex flex-row items-center gap-2">
           {links.map((link) => (
             <Link
+              key={link.href}
               to={link.href}
               className="transition-colors hover:text-foreground text-foreground/80 data-[status=active]:text-foreground"
             >

@@ -8,7 +8,7 @@ export function useToggleApproveDilemmaMutation() {
 
   return useMutation({
     mutationFn: async (dilemmaId: number) => {
-      const { error } = await client.admin.dilemmas({ id: dilemmaId }).approve.$put()
+      const { error } = await client.api.admin.dilemmas({ id: dilemmaId }).approve.$put()
 
       if (error) {
         throw error
@@ -31,7 +31,7 @@ export function useUpdateDilemmaMutation() {
       dilemmaId: number
       payload: DilemmaUpdateFormSchema
     }) => {
-      const { error } = await client.admin.dilemmas({ id: dilemmaId }).$put(payload)
+      const { error } = await client.api.admin.dilemmas({ id: dilemmaId }).$put(payload)
 
       if (error) {
         throw error

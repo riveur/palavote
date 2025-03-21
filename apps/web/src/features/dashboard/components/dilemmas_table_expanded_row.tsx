@@ -34,11 +34,15 @@ const schema = z.object({
 
 export type FormSchema = z.infer<typeof schema>
 
-interface TableExpandedRowProps extends React.ComponentProps<'div'> {
+interface DilemmasTableExpandedRowProps extends React.ComponentProps<'div'> {
   row: Row<Dilemma>
 }
 
-export function TableExpandedRow({ row, className, ...props }: TableExpandedRowProps) {
+export function DilemmasTableExpandedRow({
+  row,
+  className,
+  ...props
+}: DilemmasTableExpandedRowProps) {
   const { original: dilemma } = row
 
   const form = useForm<FormSchema>({

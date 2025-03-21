@@ -15,6 +15,14 @@ type ApiAdminDilemmasIdPut = {
   request: MakeTuyauRequest<InferInput<typeof import('../app/admin/controllers/update_dilemma_controller.ts').default['validator']>>
   response: MakeTuyauResponse<import('../app/admin/controllers/update_dilemma_controller.ts').default['execute'], true>
 }
+type ApiAdminUsersGetHead = {
+  request: unknown
+  response: MakeTuyauResponse<import('../app/admin/controllers/list_user_controller.ts').default['execute'], false>
+}
+type ApiAdminUsersIdPut = {
+  request: MakeTuyauRequest<InferInput<typeof import('../app/admin/controllers/update_user_controller.ts').default['validator']>>
+  response: MakeTuyauResponse<import('../app/admin/controllers/update_user_controller.ts').default['execute'], true>
+}
 type ApiAuthMeGetHead = {
   request: unknown
   response: MakeTuyauResponse<import('../app/auth/controllers/user_info_controller.ts').default['me'], false>
@@ -68,6 +76,17 @@ export interface ApiDefinition {
           '$url': {
           };
           '$put': ApiAdminDilemmasIdPut;
+        };
+      };
+      'users': {
+        '$url': {
+        };
+        '$get': ApiAdminUsersGetHead;
+        '$head': ApiAdminUsersGetHead;
+        ':id': {
+          '$url': {
+          };
+          '$put': ApiAdminUsersIdPut;
         };
       };
     };

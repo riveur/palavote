@@ -1,10 +1,13 @@
 import { createFileRoute, Link, Outlet, redirect, useLocation } from '@tanstack/react-router'
-import { VoteIcon } from 'lucide-react'
+import { UsersIcon, VoteIcon } from 'lucide-react'
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { authQueryOptions } from '@/features/auth/queries'
 
-const tabs = [{ label: 'Dilemmes', href: '/dashboard/dilemmas', icon: VoteIcon }]
+const tabs = [
+  { label: 'Dilemmes', href: '/dashboard/dilemmas', icon: VoteIcon },
+  { label: 'Utilisateurs', href: '/dashboard/users', icon: UsersIcon },
+]
 
 export const Route = createFileRoute('/_authenticated/_dashboard')({
   beforeLoad: async ({ context: { queryClient }, location }) => {

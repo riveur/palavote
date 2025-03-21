@@ -1,4 +1,3 @@
-import { Link } from '@tanstack/react-router'
 import {
   type ColumnDef,
   type ColumnFiltersState,
@@ -13,25 +12,11 @@ import {
   type SortingState,
   useReactTable,
 } from '@tanstack/react-table'
-import {
-  ChevronDownIcon,
-  ChevronRightIcon,
-  ChevronUpIcon,
-  MoreHorizontalIcon,
-  TicketIcon,
-} from 'lucide-react'
+import { ChevronDownIcon, ChevronRightIcon, ChevronUpIcon } from 'lucide-react'
 import { Fragment, useState } from 'react'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import {
   Table,
   TableBody,
@@ -40,12 +25,14 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { translateRole } from '@/features/auth/content/role'
+import type { User } from '@/features/auth/types'
 import { DataTableFilter } from '@/features/core/components/data_table_filter'
 import { cn } from '@/lib/utils'
-import type { Dilemma } from '@/library/types'
-import { DilemmasTableExpandedRow } from './dilemmas_table_expanded_row'
+import { UserRoleBadge } from './user_role_badge'
+import { UsersTableExpandedRow } from './users_table_expanded_row'
 
-const columns: ColumnDef<Dilemma>[] = [
+const columns: ColumnDef<User>[] = [
   {
     id: 'expand',
     cell: ({ row, table }) => {
@@ -64,65 +51,44 @@ const columns: ColumnDef<Dilemma>[] = [
     enableSorting: false,
   },
   {
-    header: 'Titre',
-    accessorKey: 'title',
+    header: '#',
+    accessorKey: 'id',
   },
   {
-    header: 'Propositions',
-    accessorKey: 'propositions',
+    header: 'Nom',
+    id: 'user',
+    accessorFn: (row) => row.username,
     cell: ({ row }) => {
-      const propositions = row.getValue('propositions') as Dilemma['propositions']
-      return (
-        <div className="flex flex-row items-center gap-1">
-          {[propositions[0], '', propositions[1]].map((proposition) => {
-            if (typeof proposition === 'string') {
-              return <span key={proposition}>/</span>
-            }
-            return <span key={proposition.id}>{proposition.name}</span>
-          })}
-        </div>
-      )
-    },
-  },
-  {
-    header: 'Auteur',
-    accessorKey: 'author',
-    cell: ({ row }) => {
-      const author = row.getValue('author') as Dilemma['author']
-      const anonymous = row.original.anonymousUsername
-
+      const user = row.original
       return (
         <div className="flex flex-row items-center gap-1">
           <Avatar className="size-4">
-            {author && <AvatarImage src={author.avatarUrl} alt={author.username} />}
-            <AvatarFallback>{author?.username.at(0) || anonymous?.at(0)}</AvatarFallback>
+            <AvatarImage src={user.avatarUrl} alt={user.username} />
+            <AvatarFallback>{user.username.at(0)}</AvatarFallback>
           </Avatar>
-          <span>{author?.username || anonymous}</span>
+          <span>{user.username}</span>
         </div>
       )
     },
     sortingFn: (rowA, rowB) => {
-      const authorA = rowA.original.author?.username || rowA.original.anonymousUsername
-      const authorB = rowB.original.author?.username || rowA.original.anonymousUsername
-      return authorA!.localeCompare(authorB!)
+      return rowA.original.username.localeCompare(rowB.original.username)
     },
   },
   {
-    header: 'Statut',
-    accessorKey: 'isApproved',
-    accessorFn: (row) => (row.isApproved ? 'Approuvé' : 'En attente'),
+    header: 'Rôle',
+    accessorKey: 'role',
+    accessorFn: (row) => translateRole(row.role),
     cell: ({ row }) => {
-      const isApproved = row.getValue('isApproved') === 'Approuvé'
-
-      return (
-        <Badge
-          data-approved={isApproved}
-          className="data-[approved=true]:bg-emerald-400/20 data-[approved=true]:text-emerald-500 data-[approved=false]:bg-indigo-400/20 data-[approved=false]:text-indigo-500"
-        >
-          {row.getValue('isApproved')}
-        </Badge>
-      )
+      return <UserRoleBadge role={row.original.role} />
     },
+    meta: {
+      filterVariant: 'select',
+    },
+  },
+  {
+    header: 'Anonyme',
+    accessorKey: 'isAnonymous',
+    accessorFn: (row) => (row.isAnonymous ? 'Oui' : 'Non'),
     meta: {
       filterVariant: 'select',
     },
@@ -132,6 +98,10 @@ const columns: ColumnDef<Dilemma>[] = [
     },
   },
   {
+    header: 'Date de création',
+    accessorFn: (row) => new Date(row.createdAt).toLocaleString(),
+  },
+  /* {
     header: 'Actions',
     id: 'actions',
     cell: ({ row }) => {
@@ -143,38 +113,23 @@ const columns: ColumnDef<Dilemma>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start">
-            <DropdownMenuGroup>
-              {row.original.isApproved && (
-                <DropdownMenuItem asChild>
-                  <Link
-                    to="/vote/$p1/$p2"
-                    params={{
-                      p1: row.original.propositions[0].slug,
-                      p2: row.original.propositions[1].slug,
-                    }}
-                  >
-                    <TicketIcon />
-                    Voter
-                  </Link>
-                </DropdownMenuItem>
-              )}
-            </DropdownMenuGroup>
+            <DropdownMenuGroup></DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
       )
     },
-  },
+  }, */
 ]
 
-interface DilemasTableProps {
-  data: Dilemma[]
+interface UsersTableProps {
+  data: User[]
 }
 
-export function DilemasTable({ data }: DilemasTableProps) {
+export function UsersTable({ data }: UsersTableProps) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [sorting, setSorting] = useState<SortingState>([
     {
-      id: 'isApproved',
+      id: '',
       desc: false,
     },
   ])
@@ -201,11 +156,14 @@ export function DilemasTable({ data }: DilemasTableProps) {
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap gap-3 px-6">
-        <div className="w-44">
-          <DataTableFilter column={table.getColumn('title')!} />
+        <div>
+          <DataTableFilter column={table.getColumn('user')!} />
         </div>
-        <div className="w-36">
-          <DataTableFilter column={table.getColumn('isApproved')!} />
+        <div className="w-44">
+          <DataTableFilter column={table.getColumn('role')!} />
+        </div>
+        <div className="w-44">
+          <DataTableFilter column={table.getColumn('isAnonymous')!} />
         </div>
       </div>
       <Table>
@@ -284,7 +242,7 @@ export function DilemasTable({ data }: DilemasTableProps) {
                 {row.getIsExpanded() && (
                   <TableRow className="hover:bg-transparent">
                     <TableCell colSpan={row.getAllCells().length} className="p-4">
-                      <DilemmasTableExpandedRow row={row} />
+                      <UsersTableExpandedRow row={row} />
                     </TableCell>
                   </TableRow>
                 )}

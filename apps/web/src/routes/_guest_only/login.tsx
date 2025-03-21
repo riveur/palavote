@@ -9,14 +9,15 @@ import { client } from '@/lib/client'
 export const Route = createFileRoute('/_guest_only/login')({
   validateSearch: (search) => loginSearchSchema.parse(search),
   beforeLoad: async ({ search }) => {
-    if (!search.code) {
+    if (!search.code || !search.state) {
       return
     }
 
     const tokenState = useAuthTokenStore.getState()
 
     const { data, error } = await client.api.auth.callback.$get({
-      query: { code: search.code },
+      query: { code: search.code, state: search.state },
+      credentials: 'include',
     })
 
     if (!error) {

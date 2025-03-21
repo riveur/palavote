@@ -37,7 +37,7 @@ export function Header({ className, ...props }: React.ComponentProps<'header'>) 
       </div>
       <div className="flex flex-row items-center gap-2">
         <Button variant="ghost" size="icon" className="rounded-full" asChild>
-          <a href="#" target="_blank">
+          <a href="https://discord.gg/stnPkbtw3E" target="_blank">
             <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path
                 fill="currentColor"

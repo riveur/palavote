@@ -8,7 +8,7 @@ import { Separator } from '../ui/separator'
 
 const links = [
   { label: 'Catalogue', href: '/library' },
-  { label: 'Proposer', href: '/propositions/create' },
+  { label: 'Proposer', href: '/submit' },
 ]
 
 export function Header({ className, ...props }: React.ComponentProps<'header'>) {

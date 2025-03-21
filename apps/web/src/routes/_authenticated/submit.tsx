@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { PropositionForm } from '@/features/vote/components/proposition_form'
 
-export const Route = createFileRoute('/_authenticated/propositions/create')({
+export const Route = createFileRoute('/_authenticated/submit')({
   component: RouteComponent,
 })
 

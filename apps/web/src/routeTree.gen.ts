@@ -17,10 +17,10 @@ import { Route as IndexImport } from './routes/index'
 import { Route as LegalTermsImport } from './routes/_legal/terms'
 import { Route as LegalPrivacyImport } from './routes/_legal/privacy'
 import { Route as GuestonlyLoginImport } from './routes/_guest_only/login'
+import { Route as AuthenticatedSubmitImport } from './routes/_authenticated/submit'
 import { Route as AuthenticatedLibraryImport } from './routes/_authenticated/library'
 import { Route as AuthenticatedDashboardImport } from './routes/_authenticated/_dashboard'
 import { Route as AuthenticatedVoteIndexImport } from './routes/_authenticated/vote.index'
-import { Route as AuthenticatedPropositionsCreateImport } from './routes/_authenticated/propositions.create'
 import { Route as AuthenticatedDashboardDashboardIndexImport } from './routes/_authenticated/_dashboard/dashboard/index'
 import { Route as AuthenticatedVoteP1P2Import } from './routes/_authenticated/vote.$p1.$p2'
 import { Route as AuthenticatedDashboardDashboardDilemmasImport } from './routes/_authenticated/_dashboard/dashboard/dilemmas'
@@ -61,6 +61,12 @@ const GuestonlyLoginRoute = GuestonlyLoginImport.update({
   getParentRoute: () => GuestonlyRoute,
 } as any)
 
+const AuthenticatedSubmitRoute = AuthenticatedSubmitImport.update({
+  id: '/submit',
+  path: '/submit',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+
 const AuthenticatedLibraryRoute = AuthenticatedLibraryImport.update({
   id: '/library',
   path: '/library',
@@ -77,13 +83,6 @@ const AuthenticatedVoteIndexRoute = AuthenticatedVoteIndexImport.update({
   path: '/vote/',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
-
-const AuthenticatedPropositionsCreateRoute =
-  AuthenticatedPropositionsCreateImport.update({
-    id: '/propositions/create',
-    path: '/propositions/create',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any)
 
 const AuthenticatedDashboardDashboardIndexRoute =
   AuthenticatedDashboardDashboardIndexImport.update({
@@ -144,6 +143,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLibraryImport
       parentRoute: typeof AuthenticatedImport
     }
+    '/_authenticated/submit': {
+      id: '/_authenticated/submit'
+      path: '/submit'
+      fullPath: '/submit'
+      preLoaderRoute: typeof AuthenticatedSubmitImport
+      parentRoute: typeof AuthenticatedImport
+    }
     '/_guest_only/login': {
       id: '/_guest_only/login'
       path: '/login'
@@ -164,13 +170,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/terms'
       preLoaderRoute: typeof LegalTermsImport
       parentRoute: typeof rootRoute
-    }
-    '/_authenticated/propositions/create': {
-      id: '/_authenticated/propositions/create'
-      path: '/propositions/create'
-      fullPath: '/propositions/create'
-      preLoaderRoute: typeof AuthenticatedPropositionsCreateImport
-      parentRoute: typeof AuthenticatedImport
     }
     '/_authenticated/vote/': {
       id: '/_authenticated/vote/'
@@ -226,7 +225,7 @@ const AuthenticatedDashboardRouteWithChildren =
 interface AuthenticatedRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRouteWithChildren
   AuthenticatedLibraryRoute: typeof AuthenticatedLibraryRoute
-  AuthenticatedPropositionsCreateRoute: typeof AuthenticatedPropositionsCreateRoute
+  AuthenticatedSubmitRoute: typeof AuthenticatedSubmitRoute
   AuthenticatedVoteIndexRoute: typeof AuthenticatedVoteIndexRoute
   AuthenticatedVoteP1P2Route: typeof AuthenticatedVoteP1P2Route
 }
@@ -234,7 +233,7 @@ interface AuthenticatedRouteChildren {
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRouteWithChildren,
   AuthenticatedLibraryRoute: AuthenticatedLibraryRoute,
-  AuthenticatedPropositionsCreateRoute: AuthenticatedPropositionsCreateRoute,
+  AuthenticatedSubmitRoute: AuthenticatedSubmitRoute,
   AuthenticatedVoteIndexRoute: AuthenticatedVoteIndexRoute,
   AuthenticatedVoteP1P2Route: AuthenticatedVoteP1P2Route,
 }
@@ -259,10 +258,10 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof AuthenticatedDashboardRouteWithChildren
   '/library': typeof AuthenticatedLibraryRoute
+  '/submit': typeof AuthenticatedSubmitRoute
   '/login': typeof GuestonlyLoginRoute
   '/privacy': typeof LegalPrivacyRoute
   '/terms': typeof LegalTermsRoute
-  '/propositions/create': typeof AuthenticatedPropositionsCreateRoute
   '/vote': typeof AuthenticatedVoteIndexRoute
   '/dashboard/dilemmas': typeof AuthenticatedDashboardDashboardDilemmasRoute
   '/vote/$p1/$p2': typeof AuthenticatedVoteP1P2Route
@@ -273,10 +272,10 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof AuthenticatedDashboardRouteWithChildren
   '/library': typeof AuthenticatedLibraryRoute
+  '/submit': typeof AuthenticatedSubmitRoute
   '/login': typeof GuestonlyLoginRoute
   '/privacy': typeof LegalPrivacyRoute
   '/terms': typeof LegalTermsRoute
-  '/propositions/create': typeof AuthenticatedPropositionsCreateRoute
   '/vote': typeof AuthenticatedVoteIndexRoute
   '/dashboard/dilemmas': typeof AuthenticatedDashboardDashboardDilemmasRoute
   '/vote/$p1/$p2': typeof AuthenticatedVoteP1P2Route
@@ -290,10 +289,10 @@ export interface FileRoutesById {
   '/_guest_only': typeof GuestonlyRouteWithChildren
   '/_authenticated/_dashboard': typeof AuthenticatedDashboardRouteWithChildren
   '/_authenticated/library': typeof AuthenticatedLibraryRoute
+  '/_authenticated/submit': typeof AuthenticatedSubmitRoute
   '/_guest_only/login': typeof GuestonlyLoginRoute
   '/_legal/privacy': typeof LegalPrivacyRoute
   '/_legal/terms': typeof LegalTermsRoute
-  '/_authenticated/propositions/create': typeof AuthenticatedPropositionsCreateRoute
   '/_authenticated/vote/': typeof AuthenticatedVoteIndexRoute
   '/_authenticated/_dashboard/dashboard/dilemmas': typeof AuthenticatedDashboardDashboardDilemmasRoute
   '/_authenticated/vote/$p1/$p2': typeof AuthenticatedVoteP1P2Route
@@ -306,10 +305,10 @@ export interface FileRouteTypes {
     | '/'
     | ''
     | '/library'
+    | '/submit'
     | '/login'
     | '/privacy'
     | '/terms'
-    | '/propositions/create'
     | '/vote'
     | '/dashboard/dilemmas'
     | '/vote/$p1/$p2'
@@ -319,10 +318,10 @@ export interface FileRouteTypes {
     | '/'
     | ''
     | '/library'
+    | '/submit'
     | '/login'
     | '/privacy'
     | '/terms'
-    | '/propositions/create'
     | '/vote'
     | '/dashboard/dilemmas'
     | '/vote/$p1/$p2'
@@ -334,10 +333,10 @@ export interface FileRouteTypes {
     | '/_guest_only'
     | '/_authenticated/_dashboard'
     | '/_authenticated/library'
+    | '/_authenticated/submit'
     | '/_guest_only/login'
     | '/_legal/privacy'
     | '/_legal/terms'
-    | '/_authenticated/propositions/create'
     | '/_authenticated/vote/'
     | '/_authenticated/_dashboard/dashboard/dilemmas'
     | '/_authenticated/vote/$p1/$p2'
@@ -386,7 +385,7 @@ export const routeTree = rootRoute
       "children": [
         "/_authenticated/_dashboard",
         "/_authenticated/library",
-        "/_authenticated/propositions/create",
+        "/_authenticated/submit",
         "/_authenticated/vote/",
         "/_authenticated/vote/$p1/$p2"
       ]
@@ -409,6 +408,10 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/library.tsx",
       "parent": "/_authenticated"
     },
+    "/_authenticated/submit": {
+      "filePath": "_authenticated/submit.tsx",
+      "parent": "/_authenticated"
+    },
     "/_guest_only/login": {
       "filePath": "_guest_only/login.tsx",
       "parent": "/_guest_only"
@@ -418,10 +421,6 @@ export const routeTree = rootRoute
     },
     "/_legal/terms": {
       "filePath": "_legal/terms.tsx"
-    },
-    "/_authenticated/propositions/create": {
-      "filePath": "_authenticated/propositions.create.tsx",
-      "parent": "/_authenticated"
     },
     "/_authenticated/vote/": {
       "filePath": "_authenticated/vote.index.tsx",

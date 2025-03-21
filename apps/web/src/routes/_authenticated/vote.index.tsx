@@ -30,7 +30,7 @@ export const Route = createFileRoute('/_authenticated/vote/')({
       <h1 className="text-xl font-bold text-center">Vous avez fini de répondre à tous les votes</h1>
       <LandPlotIcon className="size-16" />
       <Button asChild>
-        <Link to="/propositions/create">Proposer un nouveau vote</Link>
+        <Link to="/submit">Proposer un nouveau vote</Link>
       </Button>
     </div>
   ),

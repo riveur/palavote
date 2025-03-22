@@ -45,17 +45,17 @@ jobs:
             VITE_API_URL=${{ vars.VITE_API_URL }}
 
       - name: Dokploy Deployment
+        env:
+          DOKPLOY_URL: ${{ secrets.DOKPLOY_URL }}
+          DOKPLOY_AUTH_TOKEN: ${{ secrets.DOKPLOY_AUTH_TOKEN }}
+          DOKPLOY_APPLICATION_SERVER_ID: ${{ secrets.DOKPLOY_APPLICATION_SERVER_ID }}
         run: |
           curl -X 'POST' \
-          '${{ secrets.DOKPLOY_URL }}/api/trpc/application.deploy' \
+          "$DOKPLOY_URL/api/trpc/application.deploy" \
           -H 'accept: application/json' \
-          -H 'Authorization: Bearer ${{ secrets.DOKPLOY_AUTH_TOKEN }}' \
+          -H "Authorization: Bearer $DOKPLOY_AUTH_TOKEN" \
           -H 'Content-Type: application/json' \
-          -d '{
-              "json":{
-                  "applicationId": "${{ secrets.DOKPLOY_APPLICATION_SERVER_ID }}"
-              }
-          }'
+          -d "{\"applicationId\": \"$DOKPLOY_APPLICATION_SERVER_ID\"}"
 
   build-and-push-bot-image:
     runs-on: ubuntu-latest
@@ -91,14 +91,14 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Dokploy Deployment
+        env:
+          DOKPLOY_URL: ${{ secrets.DOKPLOY_URL }}
+          DOKPLOY_AUTH_TOKEN: ${{ secrets.DOKPLOY_AUTH_TOKEN }}
+          DOKPLOY_APPLICATION_SERVER_ID: ${{ secrets.DOKPLOY_APPLICATION_BOT_ID }}
         run: |
           curl -X 'POST' \
-          '${{ secrets.DOKPLOY_URL }}/api/trpc/application.deploy' \
+          "$DOKPLOY_URL/api/trpc/application.deploy" \
           -H 'accept: application/json' \
-          -H 'Authorization: Bearer ${{ secrets.DOKPLOY_AUTH_TOKEN }}' \
+          -H "Authorization: Bearer $DOKPLOY_AUTH_TOKEN" \
           -H 'Content-Type: application/json' \
-          -d '{
-              "json":{
-                  "applicationId": "${{ secrets.DOKPLOY_APPLICATION_BOT_ID }}"
-              }
-          }'
+          -d "{\"applicationId\": \"$DOKPLOY_APPLICATION_BOT_ID\"}"

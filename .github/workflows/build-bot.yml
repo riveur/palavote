@@ -6,7 +6,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: riveur/palavote-bot:latest
+  IMAGE_NAME: "${{ github.repository }}-bot"
 
 jobs:
   build-and-push-image:

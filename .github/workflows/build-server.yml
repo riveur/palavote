@@ -43,3 +43,10 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             VITE_API_URL=${{ vars.VITE_API_URL }}
+
+      - name: Dokploy Deployment
+        uses: benbristow/dokploy-deploy-action@0.0.1
+        with:
+          auth_token: ${{ secrets.DOKPLOY_AUTH_TOKEN }}
+          dokploy_url: ${{ secrets.DOKPLOY_URL }}
+          application_id: ${{ secrets.DOKPLOY_APPLICATION_SERVER_ID }}

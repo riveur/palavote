@@ -41,3 +41,10 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Dokploy Deployment
+        uses: benbristow/dokploy-deploy-action@0.0.1
+        with:
+          auth_token: ${{ secrets.DOKPLOY_AUTH_TOKEN }}
+          application_id: ${{ secrets.DOKPLOY_APPLICATION_BOT_ID }}
+          dokploy_url: ${{ secrets.DOKPLOY_URL }}

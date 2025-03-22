@@ -1,0 +1,27 @@
+{
+  "name": "@repo/bot",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node build/index.js",
+    "deploy:commands": "node build/deploy_commands.js",
+    "deploy": "pnpm build && pnpm deploy:commands",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "chalk": "^5.4.1",
+    "discord.js": "^14.18.0",
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:^",
+    "@repo/prettier-config": "workspace:^",
+    "@types/node": "^20.17.25",
+    "eslint": "^9.23.0",
+    "prettier": "^3.5.3",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  }
+}
